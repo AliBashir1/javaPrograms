@@ -1,4 +1,10 @@
 package com.strings;
+import java.util.*;
+
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class StringMethods {
 
@@ -147,18 +153,127 @@ public class StringMethods {
     public static void getIndexOfString(String str){
 
         int index = -1;
+        String msg;
         String alphabet = "abcdefghjklmnopqrstuvwxyz";
 
         for (char c: alphabet.toCharArray()) {
             index = str.toLowerCase().indexOf(c);
+            msg = (index != -1)  ?
+                (c + " index is " + index):
+                (c + " not found");
+            System.out.println(msg);
+            }
 
-            if (index != -1) {
-                System.out.println(c + " index is " + index);
-            } else {
-                System.out.println(c + " not found");
+        }
+
+
+    /**
+     *
+     * @param originalString (String) the string
+     * @param lookUpChar  (char)
+     * @param replacementChar (
+     * @return (String) a string with replaced char
+     */
+    public static String replaceChar(String originalString, char lookUpChar, char replacementChar){
+        return originalString.replace(lookUpChar, replacementChar);
+
+    }
+
+    /**
+     * checks if string is palindrome
+     * @param str (String)
+     * @return (boolean) true if string is palindrome, false otherwise.
+     */
+
+    public static boolean isPalindrome(String str){
+        String reverse = "";
+        for (int i = str.length()-1; i >=0; i--){
+            reverse += str.charAt(i);
+        }
+        if (str.equalsIgnoreCase(reverse)) return true; else return false;
+    }
+
+    /**
+     * This method will devide the string into given number of characters if divisible
+     * @param str string to divide
+     * @param n number of division
+     */
+
+    public static void divideString(String str, int n){
+        int string_size = str.length();
+        int parts;
+
+        if (str.length()/ n !=0) {
+            System.out.println(str + " is not divisible by" + n);
+            return;
+        } else {
+            for (int i = 0; i <string_size; i++){
+                // split into number of parts
+               parts = string_size / n;
+               // itll keep printing char until i is equally divisible into number of part
+               if (i % parts == 0) System.out.println();
+               System.out.println(str.charAt(i));
+           }
+
+        }
+
+
+    }
+
+    /**
+     * remove common alphabet in string and source string
+     * @param string  a string to be
+     * @param duplicateSourceString a string you want to use as source of duplication
+     * @return a new string with unique alphabets
+     */
+
+    public static String removeDuplicates(String string, String duplicateSourceString) {
+        String tempStr = "";
+        boolean isDuplicate ;
+        for (int i = 0 ; i <string.length(); i++){
+            isDuplicate = false;
+            for (int j = 0; j <duplicateSourceString.length(); j++){
+                if (string.toLowerCase().charAt(i)  == duplicateSourceString.toLowerCase().charAt(j)){
+                    isDuplicate = true;
+                }
+            }
+            if (!isDuplicate)
+                tempStr += string.charAt(i);
+        }
+        return tempStr;
+    }
+
+
+
+    // what data structure can be used to sort data-- somethign similar to list in python ??
+    public static void findMostFrequentWords(String str) {
+        int[] valueArray ;
+        int value;
+
+        List <Character> alist = new ArrayList<Character>();
+        HashMap<Character, Integer> occurenceTable = new HashMap<>();
+
+        for (char c : str.toCharArray()) {
+            if (!occurenceTable.containsKey(c)) {
+                occurenceTable.putIfAbsent(c,1);
+            }else if (occurenceTable.containsKey(c)){
+                value = occurenceTable.get(c);
+                value+=1;
+                occurenceTable.put(c, value);
+            }
+
+        }
+
+
+        for (int i: occurenceTable.values()  ) {
+            for (char c: occurenceTable.keySet()) {
+
+
+
+                 }
             }
         }
-    }
+
 
 
 
