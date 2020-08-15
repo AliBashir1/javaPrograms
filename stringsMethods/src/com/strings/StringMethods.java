@@ -233,6 +233,7 @@ public class StringMethods {
         for (int i = 0 ; i <string.length(); i++){
             isDuplicate = false;
             for (int j = 0; j <duplicateSourceString.length(); j++){
+                // checks if char from string exists in sourceString
                 if (string.toLowerCase().charAt(i)  == duplicateSourceString.toLowerCase().charAt(j)){
                     isDuplicate = true;
                 }
@@ -241,38 +242,80 @@ public class StringMethods {
                 tempStr += string.charAt(i);
         }
         return tempStr;
+
     }
 
+    /**
+     * startWith checks for prefix in given string
+     * @param string (String) a string to look into
+     * @param prefix (String) a prefix to find in string
+     * @param caseSensitive (boolean) if String is case sensitive;
+     * @return (boolean)  true or false based on result
+     */
+
+    public static boolean startWith(String string, String prefix,  boolean caseSensitive){
+        boolean isTrue;
+        isTrue = (caseSensitive)? string.startsWith(prefix):
+                string.toLowerCase().startsWith(prefix);
+       return isTrue;
+    }
+
+    /**
+     *  Checks if two strings are anagram.
+     * @param string1 (string)
+     * @param string2 (string)
+     * @return (boolean)
+     */
+
+    public static boolean isAnagram(String string1, String string2){
+        String copyS1 = string1.replaceAll(" ", "");
+        String copyS2 = string1.replaceAll(" ", "");
+
+        if (copyS1.length() != copyS2.length())
+            return false;
+
+        char[] string1Char = copyS1.toCharArray();
+        char[] string2Char = copyS2.toCharArray();
+
+        Arrays.sort(string1Char);
+        Arrays.sort(string2Char);
+
+        return Arrays.equals(string1Char, string2Char);
+    }
+
+    /**
+     * Reverses the given string.
+     * @param string (String) a string to be reversed.
+     * @return newString (String) a reversed string.
+     */
+    public static String reverseString(String string){
+        String newString = "";
+        int i;
+        for (i = string.length()-1; i>=0; i--)
+            newString +=string.charAt(i);
+        return newString;
+
+    }
+
+    /**
+     * Reverses the words in given string. This method uses reverseString method to reverse words.
+     * @param string (String) a string to be reversed.
+     * @return newString (String) a reversed string.
+     */
+    public static String reverseWords(String string){
+        String newString= "";
+        String[] words = string.split(" ");
+        for (String s: words) {
+            newString += reverseString(s) + " ";
+        }
+        return newString;
+    }
 
 
     // what data structure can be used to sort data-- somethign similar to list in python ??
     public static void findMostFrequentWords(String str) {
-        int[] valueArray ;
-        int value;
+    }
 
-        List <Character> alist = new ArrayList<Character>();
-        HashMap<Character, Integer> occurenceTable = new HashMap<>();
-
-        for (char c : str.toCharArray()) {
-            if (!occurenceTable.containsKey(c)) {
-                occurenceTable.putIfAbsent(c,1);
-            }else if (occurenceTable.containsKey(c)){
-                value = occurenceTable.get(c);
-                value+=1;
-                occurenceTable.put(c, value);
-            }
-
-        }
-
-
-        for (int i: occurenceTable.values()  ) {
-            for (char c: occurenceTable.keySet()) {
-
-
-
-                 }
-            }
-        }
 
 
 
