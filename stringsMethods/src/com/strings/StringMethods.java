@@ -1,10 +1,7 @@
 package com.strings;
+
 import java.util.*;
-
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.regex.Pattern;
 
 public class StringMethods {
 
@@ -37,8 +34,8 @@ public class StringMethods {
 
     public static void findUnicode(String str, int index){
 
-        char chr = 0;
-        int ind = -1;
+        char chr ;
+        int ind ;
 
         try{
             chr = str.charAt(index);
@@ -83,7 +80,7 @@ public class StringMethods {
     /**
      * compareLexicoString will compare strings lexicographically
      * @param sourceString  (String) is string you wanna compare to
-     * @param compareToString (String) is string that is being compored.
+     * @param compareToString (String) is string that is being compared.
      *
      * */
     public static void compareLexicoString(String sourceString, String compareToString){
@@ -122,14 +119,14 @@ public class StringMethods {
      * isSameString checks two strings if they are same or not
      * @param string1 (String) a string type
      * @param string2 (String) a String type
-     * @param caseSenstive (boolean) true if case sensitive false if not
+     * @param caseSensitive (boolean) true if case sensitive false if not
      */
 
-    public static void isSameString(String string1, String string2, boolean caseSenstive){
+    public static void isSameString(String string1, String string2, boolean caseSensitive){
         String msg;
 
 
-        if (caseSenstive){
+        if (caseSensitive){
             msg = string1.equals(string2) ?
                     ("\"" + string1 + "\" equals " + "\"" +string2+"\"" ):
                     ("\"" + string1 + "\" doest equal to " + "\"" +string2+"\"" );
@@ -186,15 +183,15 @@ public class StringMethods {
      */
 
     public static boolean isPalindrome(String str){
-        String reverse = "";
-        for (int i = str.length()-1; i >=0; i--){
-            reverse += str.charAt(i);
+        StringBuilder reverse = new StringBuilder();
+        for (int i = str.length()-1; i >= 0; i--){
+            reverse.append(str.charAt(i));
         }
-        if (str.equalsIgnoreCase(reverse)) return true; else return false;
+        if (str.equalsIgnoreCase(reverse.toString())) return true; else return false;
     }
 
     /**
-     * This method will devide the string into given number of characters if divisible
+     * This method will divide the string into given number of characters if divisible
      * @param str string to divide
      * @param n number of division
      */
@@ -210,13 +207,12 @@ public class StringMethods {
             for (int i = 0; i <string_size; i++){
                 // split into number of parts
                parts = string_size / n;
-               // itll keep printing char until i is equally divisible into number of part
+               // it'll keep printing char until i is equally divisible into number of part
                if (i % parts == 0) System.out.println();
                System.out.println(str.charAt(i));
            }
 
         }
-
 
     }
 
@@ -311,9 +307,185 @@ public class StringMethods {
         return newString;
     }
 
+    /**
+     *  Method will count the maximum occurring character in string
+     * @param str (String)
+     * @return (char) a maximum occurring character
+     */
 
-    // what data structure can be used to sort data-- somethign similar to list in python ??
+    public static char maxOccurringChar(String str){
+        int count = 0;
+        int maxCount = -1;
+        char maxChar = 0;
+
+        for (char c : str.toCharArray()) {
+            count=0;
+            for (int i = 0; i <= str.length()-1; i++){
+                if (c == str.charAt(i)){
+                    count ++;
+                }
+            }
+            if (maxCount < count){
+                maxCount = count;
+                maxChar= c;
+            }
+        }
+
+        return maxChar;
+    }
+
+    /**
+     * Display the count of substring occurrence in string
+     * @param string (String) a string to be looked into for substring
+     * @param substring (String) look up substring
+     */
+
+    public static void countSubStringInMainString(String string, String substring){
+        String[] wordArray = string.split(" ");
+        String msg;
+        int occurrence =0;
+
+        for (String word: wordArray) {
+            if (word.contains(substring)){
+                occurrence++;
+            }
+        }
+        msg = (occurrence > 0) ?
+                "\"" + substring + "\"" + " have occurred " + occurrence + " times in \"" + string + "\"":
+                "\"" + substring + "\"" + " is not in \"" + string + "\"";
+        System.out.println(msg);
+
+    }
+
+    /**
+     * Method will concatenate strings on given number of times.
+     * @param string (String) a string to concat
+     * @param numberOfConcatenation number of concatenation
+     * @return (String) a concatenated string
+     */
+
+    public static String concatNthTimes(String string, int numberOfConcatenation){
+        String tempString= "";
+        for (int i= 0; i < numberOfConcatenation; i++)
+            tempString = tempString.concat(string);
+
+        return tempString;
+    }
+
+    /**
+     * Return characters on even index
+     * @param string a string
+     * @return a tempString
+     */
+    public static String evenChar(String string){
+        String tempString = "";
+        for (int i = 0; i <= string.length() -1 ; i++ ){
+            if (i%2 == 0){
+                tempString += string.charAt(i);
+            }
+        }
+        return tempString;
+    }
+
+    /**
+     * This method will return a string of given indexes.
+     * @param string a string
+     * @param indexes array of indexes
+     * @return string if indexes are inbound
+     */
+
+    public static String stringFromGivenIndex(String string, int[] indexes){
+        String tempString = "";
+        for (int i :indexes) {
+            try {
+            tempString += string.charAt(i);
+            } catch (StringIndexOutOfBoundsException e){
+                System.out.println("Given index is out of bound. String length is "+ string.length());
+                return null;
+            }
+        }
+
+        return tempString;
+    }
+
+    /**
+     *  Returns total of numbers in string -- for example "whhat234" will return 9;
+     *
+     * @param string a number containing string
+     * @return (int) total of numbers in string
+     */
+
+    public static int sumOfNumberInString(String string){
+        int total = 0;
+        String oneCharString;
+
+        for (char c : string.toCharArray()) {
+           oneCharString =  Character.toString(c);
+           // look for digits only
+           if (Pattern.matches("\\d", oneCharString))
+                total += Integer.parseInt(oneCharString);
+        }
+        return total;
+    }
+
+
+
+    /**
+     *
+     * Incomplete
+     *
+     */
+    // Write a Java program to find first non-repeating character from a stream of characters
+
+    public static void findFirstNonRepeating(String str) {
+        // godisgood
+        char c;
+        int keepCount =1;
+        int j = 1;
+        for (int i = 0; i <= str.length() - 1; i++) {
+            c = str.charAt(i);
+            System.out.println("Reading: "+ c);
+            for (j = keepCount ; j <= str.length() - 1; j++) {
+
+                    if (c != str.charAt(j))
+                        System.out.println(c + " is not repeating");
+                    else {
+                        keepCount = j;
+                        break;
+                    }
+
+            }
+        }
+    }
+
+    // what data structure can be used to sort data-- something similar to list in python ??
     public static void findMostFrequentWords(String str) {
+        int count =0;
+        String stringCopy = str;
+       LinkedList <String> aList = new LinkedList<>();
+
+        for (char c: stringCopy.toCharArray()) {
+            for(int i = 0; i<stringCopy.length(); i++){
+                if (c == stringCopy.charAt(i)){
+                    count ++;
+                }
+
+            }
+            if (count != 0) {
+                stringCopy = stringCopy.replaceAll(Character.toString(c), " ");
+                aList.add(Integer.toString(count) + '_' + c);
+                System.out.println(stringCopy);
+
+            }
+
+            count =0;
+        }
+
+        System.out.println(aList);
+
+
+
+
     }
 
 
